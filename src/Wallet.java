@@ -28,6 +28,10 @@ public class Wallet {
     }
 
     public void sendMoney(Double amount, PublicKey receiverPublicKey) {
+        if (Ledger.getBalance(this.publicKey) < amount) {
+            logger.log(Level.SEVERE, "Insufficient funds");
+            return;
+        }
         var transaction = new Transaction(amount, publicKey, receiverPublicKey);
         Signature sign;
         byte[] signature = null;
