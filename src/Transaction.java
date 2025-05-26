@@ -1,2 +1,4 @@
-public record Transaction(int amount, String sender, String receiver) {
+import java.security.PublicKey;
+
+public record Transaction(Double amount, PublicKey sender, PublicKey receiver) {
 }

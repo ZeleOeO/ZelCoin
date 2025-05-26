@@ -15,7 +15,7 @@ public class BlockChain {
     }
 
     public static void addBlock(Transaction transaction, PublicKey publicKey, byte[] signature) {
-        Signature sign = null;
+        Signature sign;
         boolean isValid = false;
         try {
             sign = Signature.getInstance("SHA256withRSA");
@@ -28,6 +28,7 @@ public class BlockChain {
 
         if (isValid) {
             blocks.add(new Block(blocks.getLast().getPrevHash(), transaction));
+            Ledger.transact(transaction.sender(), transaction.receiver(), transaction.amount());
         }
     }
 

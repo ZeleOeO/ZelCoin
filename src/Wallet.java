@@ -12,6 +12,7 @@ public class Wallet {
         var keyPair = generateKeyPair();
         this.publicKey = keyPair.getPublic();
         this.privateKey = keyPair.getPrivate();
+        Ledger.addPublicKey(publicKey, 0.0);
     }
 
     public KeyPair generateKeyPair() {
@@ -19,15 +20,15 @@ public class Wallet {
         try {
             generator = KeyPairGenerator.getInstance("RSA");
         } catch (NoSuchAlgorithmException e) {
-           logger.log(Level.SEVERE, "RSA KeyPairGenerator", e);
+           logger.log(Level.SEVERE, e.getMessage());
         }
         assert generator != null;
         generator.initialize(2048);
         return generator.generateKeyPair();
     }
 
-    public void sendMoney(int amount, String receiverPublicKey) {
-        var transaction = new Transaction(amount, this.getPublicKey().toString(), receiverPublicKey);
+    public void sendMoney(Double amount, PublicKey receiverPublicKey) {
+        var transaction = new Transaction(amount, publicKey, receiverPublicKey);
         Signature sign;
         byte[] signature = null;
         try {
