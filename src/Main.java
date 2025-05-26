@@ -11,6 +11,8 @@ public class Main {
         Ledger.credit(ore.getPublicKey(), 1000.0);
         ore.sendMoney(200.0, merci.getPublicKey());
         ore.sendMoney(200.0, alice.getPublicKey());
+        // Should log an insufficient balance
+        ore.sendMoney(900.0, merci.getPublicKey());
 
         BlockChain.print();
     }
