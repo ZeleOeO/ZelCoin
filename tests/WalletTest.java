@@ -6,6 +6,11 @@ import java.util.logging.Logger;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class WalletTest {
+    @Test
+    public void testNewWalletHasZeroBalance() {
+        Wallet w = new Wallet();
+        assertEquals(0.0, Ledger.getBalance(w.getPublicKey()));
+    }
 
     @Test
     public void testSendMoneyAddsBlock() {
