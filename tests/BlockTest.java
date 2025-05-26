@@ -1,15 +1,28 @@
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
-class BlockTest {
-    Block block;
+public class BlockTest {
 
     @Test
-    void createBlock() {
-        block = new Block("0", "Hello");
-        System.out.println(block.getHash());
-        assertEquals("0", block.getPrevHash());
-        assertEquals("Hello", block.getData());
+    public void testHashIsConsistent() {
+        Transaction tx = new Transaction(25, "Alice", "Bob");
+        Block block = new Block("prevHash", tx);
+
+        String firstHash = block.calculateHash();
+        String secondHash = block.calculateHash();
+
+        assertNotNull(firstHash);
+        assertEquals(firstHash, secondHash);
+    }
+
+    @Test
+    public void testGetters() {
+        Transaction tx = new Transaction(10, "sender", "receiver");
+        Block block = new Block("prevHash", tx);
+
+        assertEquals("prevHash", block.getPrevHash());
+        assertEquals(tx, block.getTransaction());
+        assertNotNull(block.getTimeStamp());
     }
 }

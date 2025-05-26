@@ -1,32 +1,65 @@
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.nio.charset.StandardCharsets;
+import java.security.PublicKey;
+import java.security.Signature;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BlockChainTest {
 
-    @Test
-    public void testGenesisBlock() {
-        List<Block> blocks = BlockChain.getBlocks();
-        assertEquals(1, blocks.size(), "Blockchain should always start with Genesis block");
-        assertEquals("Genesis", blocks.getFirst().getData(), "First block should have data 'Genesis'");
+    @BeforeEach
+    public void resetBlockchain() {
+        BlockChain.getBlocks().clear();
+        Transaction genesisTransaction = new Transaction(0, "GENESIS", "GENESIS");
+        Block genesisBlock = new Block("0", genesisTransaction);
+        BlockChain.getBlocks().add(genesisBlock);
     }
 
     @Test
-    public void testAddBlock() {
+    public void testAddBlockValidTransaction() {
+        Wallet sender = new Wallet();
+        Wallet receiver = new Wallet();
         int initialSize = BlockChain.getBlocks().size();
-        BlockChain.addBlock("Block 1 Data");
-        BlockChain.addBlock("Block 2 Data");
+
+        sender.sendMoney(100, receiver.getPublicKey().toString());
 
         List<Block> blocks = BlockChain.getBlocks();
+        assertEquals(initialSize + 1, blocks.size());
 
-        assertEquals(initialSize + 2, blocks.size(), "Blockchain size should increase after adding blocks");
+        Block newBlock = blocks.getLast();
+        assertEquals(receiver.getPublicKey().toString(), newBlock.getTransaction().receiver());
+        assertEquals(sender.getPublicKey().toString(), newBlock.getTransaction().sender());
+    }
 
-        Block lastBlock = blocks.getLast();
-        Block secondLastBlock = blocks.get(blocks.size() - 2);
+    @Test
+    public void testBlockHashNotNull() {
+        Transaction tx = new Transaction(10, "sender", "receiver");
+        Block block = new Block("prevhash", tx);
+        assertNotNull(block.getHash());
+        assertEquals(block.getHash(), block.calculateHash());
+    }
 
-        assertEquals("Block 2 Data", lastBlock.getData());
-        assertEquals(secondLastBlock.getHash(), lastBlock.getPrevHash(), "Previous hash should match the hash of the previous block");
+    @Test
+    public void testInvalidSignatureShouldNotAddBlock() throws Exception {
+        Wallet wallet1 = new Wallet();
+        Wallet wallet2 = new Wallet();
+
+        Transaction tx = new Transaction(50, wallet1.getPublicKey().toString(), wallet2.getPublicKey().toString());
+
+        // Create invalid signature with wrong private key
+        Wallet anotherWallet = new Wallet();
+        Signature sig = Signature.getInstance("SHA256withRSA");
+        sig.initSign(anotherWallet.getPrivateKey());
+        sig.update(tx.toString().getBytes(StandardCharsets.UTF_8));
+        byte[] fakeSignature = sig.sign();
+
+        int beforeAdd = BlockChain.getBlocks().size();
+        BlockChain.addBlock(tx, wallet1.getPublicKey(), fakeSignature);
+        int afterAdd = BlockChain.getBlocks().size();
+
+        assertEquals(beforeAdd, afterAdd);
     }
 }
