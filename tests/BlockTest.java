@@ -29,4 +29,16 @@ public class BlockTest {
         assertEquals(tx, block.getTransaction());
         assertNotNull(block.getTimeStamp());
     }
+
+    @Test
+    public void testMineBlockFindsValidHash() {
+        Wallet sender = new Wallet();
+        Wallet receiver = new Wallet();
+        Transaction tx = new Transaction(10.0, sender.getPublicKey(), receiver.getPublicKey());
+        Block block = new Block("0", tx);
+
+        block.mineBlock(3);
+
+        assertTrue(block.getHash().startsWith("000"));
+    }
 }
