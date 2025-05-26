@@ -10,22 +10,22 @@ import java.util.logging.Logger;
 public class Block {
     private static final Logger logger = Logger.getLogger(Block.class.getName());
     private final String hash;
-    private final String data;
+    private final Transaction transaction;
     private final String prevHash;
     private final String timeStamp;
     private String nonce;
 
-    public Block(String prevHash, String data) {
+    public Block(String prevHash, Transaction data) {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         this.prevHash = prevHash;
-        this.data = data;
+        this.transaction = data;
         this.timeStamp = LocalDateTime.now().format(dtf);
         this.hash = calculateHash();
     }
 
 
     public String calculateHash() {
-        String calculatedHash = prevHash + data + timeStamp;
+        String calculatedHash = prevHash + transaction + timeStamp;
         byte[] hash = null;
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -55,8 +55,8 @@ public class Block {
         return prevHash;
     }
 
-    public String getData() {
-        return data;
+    public Transaction getTransaction() {
+        return transaction;
     }
 
     public String getHash() {
