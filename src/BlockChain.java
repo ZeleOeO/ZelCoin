@@ -6,10 +6,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class BlockChain {
+    private static final Logger logger = Logger.getLogger(BlockChain.class.getName());
     private static List<Block> blocks = new ArrayList<Block>(
     );
-
-    private static final Logger logger = Logger.getLogger(BlockChain.class.getName());
 
     private BlockChain() {
     }

@@ -9,10 +9,10 @@ import java.util.logging.Logger;
 
 public class Block {
     private static final Logger logger = Logger.getLogger(Block.class.getName());
-    private String hash;
     private final Transaction transaction;
     private final String prevHash;
     private final String timeStamp;
+    private String hash;
     private int nonce;
 
     public Block(String prevHash, Transaction data) {
@@ -40,13 +40,13 @@ public class Block {
 
     // Actually have no idea how this works, just copied it from the internet
     public void mineBlock(int difficulty) {
-		String target = new String(new char[difficulty]).replace('\0', '0');
-		while(!hash.substring(0, difficulty).equals(target)) {
+        String target = new String(new char[difficulty]).replace('\0', '0');
+        while (!hash.substring(0, difficulty).equals(target)) {
             nonce++;
             this.hash = calculateHash();
-		}
-		System.out.println("Block Mined!!! : " + hash);
-	}
+        }
+        System.out.println("Block Mined!!! : " + hash);
+    }
 
     // Getters and Setters
     public int getNonce() {

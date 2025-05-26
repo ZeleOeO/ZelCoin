@@ -4,9 +4,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Wallet {
+    private static final Logger logger = Logger.getLogger(Wallet.class.getName());
     private final PublicKey publicKey;
     private final PrivateKey privateKey;
-    private static final Logger logger = Logger.getLogger(Wallet.class.getName());
 
     public Wallet() {
         var keyPair = generateKeyPair();
@@ -20,7 +20,7 @@ public class Wallet {
         try {
             generator = KeyPairGenerator.getInstance("RSA");
         } catch (NoSuchAlgorithmException e) {
-           logger.log(Level.SEVERE, e.getMessage());
+            logger.log(Level.SEVERE, e.getMessage());
         }
         assert generator != null;
         generator.initialize(2048);
@@ -41,7 +41,7 @@ public class Wallet {
             sign.update(transaction.toString().getBytes(StandardCharsets.UTF_8));
             signature = sign.sign();
         } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException e) {
-           logger.log(Level.SEVERE, e.getMessage());
+            logger.log(Level.SEVERE, e.getMessage());
         }
         BlockChain.addBlock(transaction, publicKey, signature);
     }

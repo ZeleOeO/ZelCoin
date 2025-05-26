@@ -8,7 +8,8 @@ public class Ledger {
 
     private static Map<PublicKey, Double> balances = new HashMap<PublicKey, Double>();
 
-    private Ledger() {}
+    private Ledger() {
+    }
 
     public static void credit(PublicKey publicKey, Double amount) {
         double newBalance = getBalance(publicKey) + amount;

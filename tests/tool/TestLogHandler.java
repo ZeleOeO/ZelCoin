@@ -13,10 +13,12 @@ public class TestLogHandler extends Handler {
     }
 
     @Override
-    public void flush() {}
+    public void flush() {
+    }
 
     @Override
-    public void close() throws SecurityException {}
+    public void close() throws SecurityException {
+    }
 
     public boolean containsMessage(String message) {
         return logMessages.toString().contains(message);
