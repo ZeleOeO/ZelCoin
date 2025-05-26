@@ -1,3 +1,5 @@
+package entities;
+
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -45,7 +47,7 @@ public class Block {
             nonce++;
             this.hash = calculateHash();
         }
-        System.out.println("Block Mined!!! : " + hash);
+        System.out.println("entities.Block Mined!!! : " + hash);
     }
 
     // Getters and Setters

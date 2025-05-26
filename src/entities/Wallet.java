@@ -1,3 +1,5 @@
+package entities;
+
 import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.util.logging.Level;

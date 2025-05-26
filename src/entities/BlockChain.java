@@ -1,3 +1,5 @@
+package entities;
+
 import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.util.ArrayList;
@@ -45,7 +47,7 @@ public class BlockChain {
             System.out.println("Hash: " + block.getHash());
             System.out.println("Prev Hash: " + block.getPrevHash());
             System.out.println("Timestamp: " + block.getTimeStamp());
-            System.out.println("Transaction: " + block.getTransaction());
+            System.out.println("entities.Transaction: " + block.getTransaction());
             System.out.println("------------\n");
         }
     }

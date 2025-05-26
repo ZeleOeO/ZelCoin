@@ -1,3 +1,4 @@
+import entities.*;
 import org.junit.jupiter.api.Test;
 import tool.TestLogHandler;
 

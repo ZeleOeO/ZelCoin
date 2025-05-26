@@ -1,3 +1,7 @@
+import entities.BlockChain;
+import entities.Ledger;
+import entities.Wallet;
+
 public class Main {
     public static void main(String[] args) {
         Wallet ore = new Wallet();

@@ -1,3 +1,6 @@
+import entities.Block;
+import entities.Transaction;
+import entities.Wallet;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
