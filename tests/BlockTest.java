@@ -6,7 +6,9 @@ public class BlockTest {
 
     @Test
     public void testHashIsConsistent() {
-        Transaction tx = new Transaction(25, "Alice", "Bob");
+        Wallet dummy = new Wallet();
+        Wallet dummy2 = new Wallet();
+        Transaction tx = new Transaction(25.0, dummy.getPublicKey(), dummy2.getPublicKey());
         Block block = new Block("prevHash", tx);
 
         String firstHash = block.calculateHash();
@@ -18,7 +20,9 @@ public class BlockTest {
 
     @Test
     public void testGetters() {
-        Transaction tx = new Transaction(10, "sender", "receiver");
+        Wallet dummy = new Wallet();
+        Wallet dummy2 = new Wallet();
+        Transaction tx = new Transaction(10.0, dummy.getPublicKey(), dummy2.getPublicKey());
         Block block = new Block("prevHash", tx);
 
         assertEquals("prevHash", block.getPrevHash());
